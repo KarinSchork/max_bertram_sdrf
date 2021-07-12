@@ -204,18 +204,25 @@ class PeptideIdentificationPipeline:
             with closing(request.urlopen(file)) as r:
                 # download .sdrf
                 sdrf = '{}/{}'.format(self._accession, file.split('/')[-1])
+                print(sdrf)
                 with open(sdrf, 'wb') as f:
                     shutil.copyfileobj(r, f)
                 with open(sdrf, 'r') as csv_file:
                     entries = [entry for entry in csv.DictReader(csv_file, delimiter='\t')]
+                    for i in range(0, len(entries) - 1):
+                        entries[i] = dict((k.lower(), v) for k, v in entries[i].items()) ## transform everything to lower case!
+                    #entries = [entry.lower() for entry in entries]  ## transform everything to lower case
 
-                    if not all([col in list(entries[0].keys())
+                    col_names = list(entries[0].keys())
+                    col_names = [entry.lower() for entry in col_names]
+
+                    if not all([col in col_names  # list(entries[0].keys()
                                 for col in self.prerequisite_sdrf_cols]):
                         print('ERROR: SDRF file does not provide prerequisite information '
                               '(column names). SDRF file is skipped!')
                         break
 
-                col_names = list(entries[0].keys())
+                #col_names = list(entries[0].keys())
                 for entry_idx, entry in enumerate(entries):
                     sdrf_infos = self._read_config_sdrf(entry, col_names)
                     #
@@ -276,7 +283,7 @@ class PeptideIdentificationPipeline:
         return {
             # these four entries are mandatory (because they are necessary for search engine)
             'enzyme':
-                re.search('NT=(.*?);', information['comment[cleavage agent details]']).group(1),
+                re.search('NT=(.*?)((;)|($))', information['comment[cleavage agent details]']).group(1),
             'precursor mass tolerance':
                 information['comment[precursor mass tolerance]'].replace(' ppm', ''),
             'fragment mass tolerance':
@@ -312,7 +319,7 @@ class PeptideIdentificationPipeline:
 
 if __name__ == '__main__':
     comet = Comet('executables/search_engines/comet.exe')
-    pep_ident_pipeline = PeptideIdentificationPipeline(accession= 'PXD002171', #'PXD002171',
+    pep_ident_pipeline = PeptideIdentificationPipeline(accession= 'PXD005507', #'PXD002171',
                                                        search_engine=comet,
                                                        thermorawfileparser_path=
                                                        'executables/ThermoRawFileParser/ThermoRawFileParser.exe',
