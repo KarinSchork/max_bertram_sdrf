@@ -42,7 +42,7 @@ class PeptideIdentificationPipeline:
     prerequisite_sdrf_cols = ['comment[cleavage agent details]',
                               'comment[precursor mass tolerance]',
                               'comment[fragment mass tolerance]',
-                              'comment[number of missed cleavages]',
+                              #'comment[number of missed cleavages]',
                               'characteristics[organism]']
     fasta_map = None
 
@@ -275,7 +275,8 @@ class PeptideIdentificationPipeline:
             'fragment mass tolerance':
                 information['comment[fragment mass tolerance]'].replace(' Da', ''),
             'missed cleavages':
-                information['comment[number of missed cleavages]'],
+                information['comment[number of missed cleavages]']
+                if 'comment[number of missed cleavages]' in col_names else 2,
             'organism':
                 information['characteristics[organism]'],
             # these are additional information
@@ -305,10 +306,11 @@ class PeptideIdentificationPipeline:
 
 if __name__ == '__main__':
     comet = Comet('executables/search_engines/comet.exe')
-    pep_ident_pipeline = PeptideIdentificationPipeline(accession='PXD002171',
+    pep_ident_pipeline = PeptideIdentificationPipeline(accession= 'PXD000790', #'PXD002171',
                                                        search_engine=comet,
                                                        thermorawfileparser_path=
                                                        'executables/ThermoRawFileParser/ThermoRawFileParser.exe',
                                                        search_engine_specific_fdr=True,
                                                        separate_sdrf_entries=True)
     pep_ident_pipeline.start()
+
