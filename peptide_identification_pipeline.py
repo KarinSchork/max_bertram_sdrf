@@ -266,6 +266,13 @@ class PeptideIdentificationPipeline:
         :param col_names: Actual column names from given .sdrf file.
         :return: Processed configuration from .sdrf entry.
         """
+
+        if 'comment[file uri]' in col_names:
+            uri = information['comment[file uri]']
+        elif 'comment[associated file uri]' in col_names:
+            uri = information['comment[associated file uri]']
+        else: uri = 'Undefined'
+
         return {
             # these four entries are mandatory (because they are necessary for search engine)
             'enzyme':
@@ -290,8 +297,7 @@ class PeptideIdentificationPipeline:
                 information['comment[data file]']
                 if 'comment[data file]' in col_names else 'Undefined',
             'uri':
-                information['comment[file uri]']
-                if 'comment[file uri]' in col_names else 'Undefined',
+                uri,
             'fraction id':
                 information['comment[fraction identifier]']
                 if 'comment[fraction identifier] ' in col_names else 'Undefined',
@@ -306,7 +312,7 @@ class PeptideIdentificationPipeline:
 
 if __name__ == '__main__':
     comet = Comet('executables/search_engines/comet.exe')
-    pep_ident_pipeline = PeptideIdentificationPipeline(accession= 'PXD000790', #'PXD002171',
+    pep_ident_pipeline = PeptideIdentificationPipeline(accession= 'PXD002171', #'PXD002171',
                                                        search_engine=comet,
                                                        thermorawfileparser_path=
                                                        'executables/ThermoRawFileParser/ThermoRawFileParser.exe',
