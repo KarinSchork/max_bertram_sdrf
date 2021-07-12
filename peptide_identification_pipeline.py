@@ -232,6 +232,7 @@ class PeptideIdentificationPipeline:
                         # if needed, create new directory
                         if self._separate_sdrf_entries:
                             sample_name = '/{}'.format(sdrf_infos['name'])
+                            sample_name = sample_name.replace(" ", "")   ### remove whitespace
                             Path(f'{self._accession}{sample_name}').mkdir(parents=False, exist_ok=True)
                         else:
                             sample_name = ''
@@ -319,7 +320,7 @@ class PeptideIdentificationPipeline:
 
 if __name__ == '__main__':
     comet = Comet('executables/search_engines/comet.exe')
-    pep_ident_pipeline = PeptideIdentificationPipeline(accession= 'PXD005507', #'PXD002171',
+    pep_ident_pipeline = PeptideIdentificationPipeline(accession= 'PXD001474', #'PXD002171',
                                                        search_engine=comet,
                                                        thermorawfileparser_path=
                                                        'executables/ThermoRawFileParser/ThermoRawFileParser.exe',
