@@ -250,9 +250,13 @@ class PeptideIdentificationPipeline:
                                     f'-f=0'
                         subprocess.call(arguments, stdout=self._FNULL, stderr=self._FNULL, shell=False)
                         # determine path to created .mgf file
+
+                        mgf_file_name = file_name.replace('raw', 'mgf')
+                        mgf_file_name = mgf_file_name.replace('RAW', 'mgf')
+
                         mgf_file = '{}{}/{}'.format(self._accession,
                                                     sample_name,
-                                                    file_name.replace('raw', 'mgf'))
+                                                    mgf_file_name)
                         # start search engine search
                         self._search_engine.search(cwd=self._cwd,
                                                    database=fasta_db,
@@ -320,7 +324,7 @@ class PeptideIdentificationPipeline:
 
 if __name__ == '__main__':
     comet = Comet('executables/search_engines/comet.exe')
-    pep_ident_pipeline = PeptideIdentificationPipeline(accession= 'PXD020192', #'PXD002171',
+    pep_ident_pipeline = PeptideIdentificationPipeline(accession= 'PXD000547', #'PXD002171',
                                                        search_engine=comet,
                                                        thermorawfileparser_path=
                                                        'executables/ThermoRawFileParser/ThermoRawFileParser.exe',
