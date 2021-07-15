@@ -209,7 +209,7 @@ class PeptideIdentificationPipeline:
                     shutil.copyfileobj(r, f)
                 with open(sdrf, 'r') as csv_file:
                     entries = [entry for entry in csv.DictReader(csv_file, delimiter='\t')]
-                    for i in range(0, len(entries) - 1):
+                    for i in range(0, len(entries)):
                         entries[i] = dict((k.lower(), v) for k, v in entries[i].items()) ## transform everything to lower case!
                     #entries = [entry.lower() for entry in entries]  ## transform everything to lower case
 
@@ -320,7 +320,7 @@ class PeptideIdentificationPipeline:
 
 if __name__ == '__main__':
     comet = Comet('executables/search_engines/comet.exe')
-    pep_ident_pipeline = PeptideIdentificationPipeline(accession= 'PXD001474', #'PXD002171',
+    pep_ident_pipeline = PeptideIdentificationPipeline(accession= 'PXD020192', #'PXD002171',
                                                        search_engine=comet,
                                                        thermorawfileparser_path=
                                                        'executables/ThermoRawFileParser/ThermoRawFileParser.exe',
