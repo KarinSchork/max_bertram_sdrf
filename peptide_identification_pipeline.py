@@ -283,6 +283,10 @@ class PeptideIdentificationPipeline:
             uri = information['comment[file uri]']
         elif 'comment[associated file uri]' in col_names:
             uri = information['comment[associated file uri]']
+        elif 'comment[associated file url]' in col_names:
+            uri = information['comment[associated file url]']
+        elif 'comment[file url]' in col_names:
+            uri = information['comment[file url]']
         else: uri = 'Undefined'
 
         return {
