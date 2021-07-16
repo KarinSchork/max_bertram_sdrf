@@ -245,8 +245,8 @@ class PeptideIdentificationPipeline:
                                 shutil.copyfileobj(r, f)
                         # convert .raw to .mgf using ThermoRawFileParser.exe
                         arguments = f'{self._thermorawfileparser_path} ' \
-                                    f'-i={self._accession}{sample_name}/{file_name} ' \
-                                    f'-o={self._accession}{sample_name} ' \
+                                    f'-i={self._accession}/{sample_name}/{file_name} ' \
+                                    f'-o={self._accession}/{sample_name} ' \
                                     f'-f=0'
                         subprocess.call(arguments, stdout=self._FNULL, stderr=self._FNULL, shell=False)
                         # determine path to created .mgf file
@@ -328,7 +328,7 @@ class PeptideIdentificationPipeline:
 
 if __name__ == '__main__':
     comet = Comet('executables/search_engines/comet.exe')
-    pep_ident_pipeline = PeptideIdentificationPipeline(accession= 'PXD000547', #'PXD002171',
+    pep_ident_pipeline = PeptideIdentificationPipeline(accession= 'PXD018594', #'PXD002171',
                                                        search_engine=comet,
                                                        thermorawfileparser_path=
                                                        'executables/ThermoRawFileParser/ThermoRawFileParser.exe',

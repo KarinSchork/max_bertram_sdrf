@@ -49,6 +49,7 @@ class Comet(SearchEngineInterface):
         return {
             'Trypsin': '1',
             'Trypsin/P': '2',
+            'trypsin/P': '2',
             'Lys_C': '3',
             'Lys_N': '4',
             'Arg_C': '5',
